@@ -6,15 +6,29 @@
 <body>
   <h1>Tap to Earn!</h1>
   <h3>Wallet Balance: <span id="wallet">$0.00</span></h3>
+  <p>Your referral link: <span id="ref-link"></span></p>
   <button onclick="tap()">Tap</button>
   <p>Points: <span id="points">0</span></p>
   <script>
-  let points = localStorage.getItem("points") || 0;
+  // Check if the user came with a referral
+  const urlParams = new URLSearchParams(window.location.search);
+  const ref = urlParams.get("ref");
+
+  let points = parseInt(localStorage.getItem("points")) || 0;
+
+  // If new user with referral, give bonus
+  if (ref && !localStorage.getItem("referrer")) {
+    points += 50; // reward for being referred
+    localStorage.setItem("referrer", ref); // remember who referred them
+  }
+
+  localStorage.setItem("points", points);
   document.getElementById("points").innerText = points;
 
   let money = (points * 0.001).toFixed(2);
   document.getElementById("wallet").innerText = "$" + money;
 
+  // Tap function
   function tap() {
     points++;
     document.getElementById("points").innerText = points;
@@ -23,5 +37,9 @@
     money = (points * 0.001).toFixed(2);
     document.getElementById("wallet").innerText = "$" + money;
   }
-</script>
 
+  // Show referral link
+  const currentURL = window.location.origin + window.location.pathname;
+  const userRefLink = currentURL + "?ref=samuel"; // You can change "samuel" to the username
+  document.getElementById("ref-link").innerText = userRefLink;
+</script>
