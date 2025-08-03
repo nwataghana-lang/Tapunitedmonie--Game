@@ -9,6 +9,18 @@
   <p>Your referral link: <span id="ref-link"></span></p>
   <button onclick="tap()">Tap</button>
   <p>Points: <span id="points">0</span></p>
+  let username = localStorage.getItem("username");
+
+if (!username) {
+  username = prompt("Enter a username to start:");
+  if (!username) {
+    username = "guest" + Math.floor(Math.random() * 10000);
+  }
+  localStorage.setItem("username", username);
+}
+
+document.title = "Welcome " + username;
+
   <script>
   // Check if the user came with a referral
   const urlParams = new URLSearchParams(window.location.search);
