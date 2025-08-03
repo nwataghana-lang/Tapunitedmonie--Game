@@ -21,7 +21,7 @@ if (!username) {
 
 document.title = "Welcome " + username;
 
-  <script>
+  <script> 
   // Check if the user came with a referral
   const urlParams = new URLSearchParams(window.location.search);
   const ref = urlParams.get("ref");
@@ -54,4 +54,28 @@ document.title = "Welcome " + username;
   const currentURL = window.location.origin + window.location.pathname;
   const userRefLink = currentURL + "?ref=samuel"; // You can change "samuel" to the username
   document.getElementById("ref-link").innerText = userRefLink;
+</script>
+<script>
+  // 1. Username prompt setup
+  let username = localStorage.getItem("username");
+  if (!username) {
+    username = prompt("Enter a username to start:");
+    if (!username) {
+      username = "guest" + Math.floor(Math.random() * 10000);
+    }
+    localStorage.setItem("username", username);
+  }
+  document.title = "Welcome " + username;
+
+  // 2. Referral bonus logic
+  const urlParams = new URLSearchParams(window.location.search);
+  const referrer = urlParams.get('ref');
+
+  if (referrer && referrer !== username && !localStorage.getItem("refBonusGiven")) {
+    let wallet = localStorage.getItem("wallet") || 0;
+    wallet = parseInt(wallet) + 50;
+    localStorage.setItem("wallet", wallet);
+    localStorage.setItem("refBonusGiven", "yes");
+    alert("You got 50 coins for using a referral link from " + referrer + "!");
+  }
 </script>
