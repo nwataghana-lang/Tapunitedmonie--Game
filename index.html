@@ -7,13 +7,13 @@
   <h1>Tap to Earn!</h1>
   <button onclick="tap()">Tap</button>
   <p>Points: <span id="points">0</span></p>
-
   <script>
-    let points = 0;
-    function tap() {
-      points++;
-      document.getElementById('points').innerText = points;
-    }
-  </script>
-</body>
-</html>
+  let points = localStorage.getItem("points") || 0;
+  document.getElementById("points").innerText = points;
+
+  function tap() {
+    points++;
+    document.getElementById("points").innerText = points;
+    localStorage.setItem("points", points);
+  }
+</script>
