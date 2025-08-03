@@ -5,15 +5,23 @@
 </head>
 <body>
   <h1>Tap to Earn!</h1>
+  <h3>Wallet Balance: <span id="wallet">$0.00</span></h3>
   <button onclick="tap()">Tap</button>
   <p>Points: <span id="points">0</span></p>
   <script>
   let points = localStorage.getItem("points") || 0;
   document.getElementById("points").innerText = points;
 
+  let money = (points * 0.001).toFixed(2);
+  document.getElementById("wallet").innerText = "$" + money;
+
   function tap() {
     points++;
     document.getElementById("points").innerText = points;
     localStorage.setItem("points", points);
+
+    money = (points * 0.001).toFixed(2);
+    document.getElementById("wallet").innerText = "$" + money;
   }
 </script>
+
