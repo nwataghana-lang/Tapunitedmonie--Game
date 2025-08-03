@@ -1,81 +1,50 @@
+
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>TapUnitedMonie</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tap United Monie</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding-top: 100px;
+      background: #f0f0f0;
+    }
+    #counter {
+      font-size: 40px;
+      margin-bottom: 20px;
+    }
+    button {
+      font-size: 24px;
+      padding: 15px 30px;
+      background: green;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+    button:active {
+      background: darkgreen;
+    }
+  </style>
 </head>
 <body>
-  <h1>Tap to Earn!</h1>
-  <h3>Wallet Balance: <span id="wallet">$0.00</span></h3>
-  <p>Your referral link: <span id="ref-link"></span></p>
-  <button onclick="tap()">Tap</button>
-  <p>Points: <span id="points">0</span></p>
-  let username = localStorage.getItem("username");
+  <h1>Tap United Monie</h1>
+  <div id="counter">0 Coins</div>
+  <button onclick="tap()">Tap to Earn</button>
 
-if (!username) {
-  username = prompt("Enter a username to start:");
-  if (!username) {
-    username = "guest" + Math.floor(Math.random() * 10000);
-  }
-  localStorage.setItem("username", username);
-}
+  <script>
+    let count = localStorage.getItem('tapCount') || 0;
+    count = parseInt(count);
+    document.getElementById('counter').innerText = count + ' Coins';
 
-document.title = "Welcome " + username;
-
-  <script> 
-  // Check if the user came with a referral
-  const urlParams = new URLSearchParams(window.location.search);
-  const ref = urlParams.get("ref");
-
-  let points = parseInt(localStorage.getItem("points")) || 0;
-
-  // If new user with referral, give bonus
-  if (ref && !localStorage.getItem("referrer")) {
-    points += 50; // reward for being referred
-    localStorage.setItem("referrer", ref); // remember who referred them
-  }
-
-  localStorage.setItem("points", points);
-  document.getElementById("points").innerText = points;
-
-  let money = (points * 0.001).toFixed(2);
-  document.getElementById("wallet").innerText = "$" + money;
-
-  // Tap function
-  function tap() {
-    points++;
-    document.getElementById("points").innerText = points;
-    localStorage.setItem("points", points);
-
-    money = (points * 0.001).toFixed(2);
-    document.getElementById("wallet").innerText = "$" + money;
-  }
-
-  // Show referral link
-  const currentURL = window.location.origin + window.location.pathname;
-  const userRefLink = currentURL + "?ref=samuel"; // You can change "samuel" to the username
-  document.getElementById("ref-link").innerText = userRefLink;
-</script>
-<script>
-  // 1. Username prompt setup
-  let username = localStorage.getItem("username");
-  if (!username) {
-    username = prompt("Enter a username to start:");
-    if (!username) {
-      username = "guest" + Math.floor(Math.random() * 10000);
+    function tap() {
+      count++;
+      localStorage.setItem('tapCount', count);
+      document.getElementById('counter').innerText = count + ' Coins';
     }
-    localStorage.setItem("username", username);
-  }
-  document.title = "Welcome " + username;
-
-  // 2. Referral bonus logic
-  const urlParams = new URLSearchParams(window.location.search);
-  const referrer = urlParams.get('ref');
-
-  if (referrer && referrer !== username && !localStorage.getItem("refBonusGiven")) {
-    let wallet = localStorage.getItem("wallet") || 0;
-    wallet = parseInt(wallet) + 50;
-    localStorage.setItem("wallet", wallet);
-    localStorage.setItem("refBonusGiven", "yes");
-    alert("You got 50 coins for using a referral link from " + referrer + "!");
-  }
-</script>
+  </script>
+</body>
+</html>
