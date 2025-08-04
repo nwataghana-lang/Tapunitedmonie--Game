@@ -27,3 +27,20 @@ fetch(`https://nwataghana.pythonanywhere.com/api/tap/${username}` + (ref ? `?ref
 .then(data => {
   document.getElementById("balance").innerText = data.balance;
 });
+function loadLeaderboard() {
+  fetch("https://nwataghana.pythonanywhere.com/api/leaderboard")
+    .then(res => res.json())
+    .then(users => {
+      const list = document.getElementById("leaderboard-list");
+      list.innerHTML = ""; // clear old list
+      users.forEach((user, i) => {
+        const li = document.createElement("li");
+        li.innerText = `${i+1}. ${user.username} — ${user.balance} coins`;
+        list.appendChild(li);
+      });
+    })
+    .catch(err => console.error("Error loading leaderboard:", err));
+}
+
+// Call this when page loads or on demand
+loadLeaderboard();
