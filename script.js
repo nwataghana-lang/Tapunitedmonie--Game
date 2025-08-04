@@ -1,5 +1,7 @@
-const backend = "https://@nwataghana21.pythonanywhere.com";
-let username = "";
+let username = Telegram.WebApp.initDataUnsafe.user?.username || "guest";
+
+let username = "nwataghana21"; // 🔥 Hardcoded
+
 
 window.Telegram.WebApp.ready();
 
