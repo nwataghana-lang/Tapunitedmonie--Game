@@ -15,3 +15,7 @@ Telegram.WebApp.MainButton.onClick(() => {
         console.error("Error:", err);
     });
 });
+if (balance % 10 === 0) {
+  balance += 5; // Bonus 5 coins
+  alert("🎁 Bonus! +5 coins");
+}
