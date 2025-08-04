@@ -48,3 +48,13 @@
   </script><script src="script.js"></script>
 </body>
 </html>
+<p>Your referral link:</p>
+<code id="refLink"></code>
+
+<script>
+  const username = localStorage.getItem("username") || prompt("Enter your username:");
+  localStorage.setItem("username", username);
+
+  const link = `https://tapunitedmonie-game.vercel.app/?ref=${username}`;
+  document.getElementById("refLink").innerText = link;
+</script>
