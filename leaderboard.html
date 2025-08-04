@@ -9,5 +9,20 @@
   <li>user2 - 3500 coins</li>
   <li>user3 - 2000 coins</li>
 </ol>
-</body>
+<h1>Leaderboard 🏆</h1>
+<ul id="leaderboard"></ul>
+
+<script>
+  fetch("https://nwataghana.pythonanywhere.com/api/leaderboard")
+    .then(res => res.json())
+    .then(data => {
+      const list = document.getElementById("leaderboard");
+      data.forEach((user, index) => {
+        const li = document.createElement("li");
+        li.innerText = `${index + 1}. ${user.username} - ${user.balance} 🪙`;
+        list.appendChild(li);
+      });
+    });
+</script>
+
 </html>
