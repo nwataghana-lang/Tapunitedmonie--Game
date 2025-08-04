@@ -1,28 +1,17 @@
-let username = Telegram.WebApp.initDataUnsafe.user?.username || "guest";
-let username = "nwataghana21"; // 🔒 Hardcoded
+let username = "nwataghana21"; // Hardcoded for now
 
-
-window.Telegram.WebApp.ready();
-
-Telegram.WebApp.MainButton.setText("Tap to Earn 🖱️");
+Telegram.WebApp.MainButton.setText("🪙 Tap to Earn Coins");
 Telegram.WebApp.MainButton.show();
 
 Telegram.WebApp.MainButton.onClick(() => {
-    fetch(`${backend}/api/tap/${username}`, {
+    fetch(`https://nwataghana.pythonanywhere.com/api/tap/${username}`, {
         method: "POST"
     })
-    .then(res => res.json())
+    .then(response => response.json())
     .then(data => {
         document.getElementById("balance").innerText = data.balance;
+    })
+    .catch(err => {
+        console.error("Error:", err);
     });
 });
-
-window.onload = () => {
-    username = Telegram.WebApp.initDataUnsafe.user?.username || "guest";
-
-    fetch(`${backend}/api/user/${username}`)
-        .then(res => res.json())
-        .then(data => {
-            document.getElementById("balance").innerText = data.balance;
-        });
-};
