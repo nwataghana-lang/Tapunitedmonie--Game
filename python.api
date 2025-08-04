@@ -1,0 +1,7 @@
+@app.route("/api/leaderboard")
+def leaderboard():
+    # Example: load users from users.json or your DB
+    users = load_users()
+    # Sort users by balance or taps descending
+    top_users = sorted(users, key=lambda u: u["balance"], reverse=True)[:10]
+    return jsonify(top_users)
