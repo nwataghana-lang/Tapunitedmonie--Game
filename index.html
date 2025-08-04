@@ -30,7 +30,17 @@
     }
   </style>
 </head>
-<body>
+<body><p>Your referral link:</p>
+<code id="refLink"></code>
+
+<script>
+  const username = localStorage.getItem("username") || prompt("Enter your username:");
+  localStorage.setItem("username", username);
+
+  const link = `https://tapunitedmonie-game.vercel.app/?ref=${username}`;
+  document.getElementById("refLink").innerText = link;
+</script>
+
   <h1>Tap United Monie</h1>
   <div id="counter">0 Coins</div>
   <button onclick="tap()">Tap to Earn</button>
