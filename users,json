@@ -1,0 +1,6 @@
+@app.route("/api/leaderboard")
+def leaderboard():
+    users = load_users()
+    sorted_users = sorted(users.items(), key=lambda x: x[1], reverse=True)
+    top_users = [{"username": k, "balance": v} for k, v in sorted_users[:10]]
+    return jsonify(top_users)
