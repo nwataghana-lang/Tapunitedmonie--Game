@@ -19,3 +19,11 @@ if (balance % 10 === 0) {
   balance += 5; // Bonus 5 coins
   alert("🎁 Bonus! +5 coins");
 }
+const ref = new URLSearchParams(window.location.search).get("ref");
+fetch(`https://nwataghana.pythonanywhere.com/api/tap/${username}` + (ref ? `?ref=${ref}` : ""), {
+  method: "POST",
+})
+.then(res => res.json())
+.then(data => {
+  document.getElementById("balance").innerText = data.balance;
+});
