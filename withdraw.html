@@ -8,58 +8,54 @@
       font-family: Arial, sans-serif;
       background: #f8f8f8;
       padding: 20px;
-      max-width: 600px;
-      margin: auto;
     }
-    h1, h2 {
-      color: #333;
-    }
-    .wallet, .form-box {
+    .wallet {
       background: #fff;
       padding: 15px;
       margin-bottom: 20px;
       border-radius: 10px;
       box-shadow: 0 2px 4px rgba(0,0,0,0.1);
     }
-    .copy-btn, .submit-btn {
+    h2 {
+      color: #333;
+    }
+    .copy-btn {
       margin-top: 8px;
-      padding: 10px 15px;
+      padding: 8px 14px;
       background: #2ecc71;
       color: white;
       border: none;
       border-radius: 5px;
       cursor: pointer;
     }
-    .copy-btn:hover, .submit-btn:hover {
+    .copy-btn:hover {
       background: #27ae60;
     }
-    input {
-      width: 100%;
-      padding: 8px;
-      margin-top: 5px;
-      margin-bottom: 10px;
-      border-radius: 5px;
-      border: 1px solid #ccc;
+    .form-section {
+      background: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      margin-top: 30px;
     }
-    p.status {
-      color: orange;
-      font-weight: bold;
+    input {
+      padding: 10px;
+      width: 100%;
+      margin-top: 10px;
+      margin-bottom: 20px;
+    }
+    button.submit-btn {
+      background: #3498db;
+      padding: 10px 20px;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
     }
   </style>
 </head>
 <body>
-  <h1>Withdraw Coins</h1>
-
-  <div class="form-box">
-    <h2>💸 Submit Withdrawal Request</h2>
-    <form>
-      <label>Enter Wallet Address or Username:</label>
-      <input type="text" placeholder="e.g. bc1q... or @username" required>
-      <label>Minimum coins required: 1000</label><br>
-      <button class="submit-btn" type="button" onclick="alert('Withdrawal Request Sent ✅')">Request Withdrawal</button>
-    </form>
-    <p class="status">Status: Pending</p>
-  </div>
+  <h1>Withdraw & Payment Addresses</h1>
 
   <div class="wallet">
     <h2>💰 BTC (Bitcoin)</h2>
@@ -68,13 +64,13 @@
   </div>
 
   <div class="wallet">
-    <h2>⚡ BNB / Ethereum</h2>
+    <h2>⚡ BNB / Ethereum (BEP20/ERC20)</h2>
     <p id="bnb">0xf80C091ad103EF484D6b9E1446A88c738B701847</p>
     <button class="copy-btn" onclick="copy('bnb')">Copy</button>
   </div>
 
   <div class="wallet">
-    <h2>🪙 USDT (ERC20)</h2>
+    <h2>🪙 USDT (Ethereum / ERC20)</h2>
     <p id="usdt">0xA319284CfB9DA7e6486f0A9e80Db8C573b704FBC</p>
     <button class="copy-btn" onclick="copy('usdt')">Copy</button>
   </div>
@@ -85,6 +81,18 @@
     <button class="copy-btn" onclick="copy('sol')">Copy</button>
   </div>
 
+  <div class="form-section">
+    <h2>📝 Request Withdrawal</h2>
+    <form id="withdrawForm">
+      <label>Username or Wallet Address:</label><br>
+      <input type="text" name="wallet" required>
+      <label>How many coins? (min: 1000):</label><br>
+      <input type="number" name="amount" required min="1000"><br>
+      <button type="submit" class="submit-btn">Request Withdrawal</button>
+    </form>
+    <p id="status"></p>
+  </div>
+
   <script>
     function copy(id) {
       const text = document.getElementById(id).innerText;
@@ -92,6 +100,24 @@
         alert("Copied: " + text);
       });
     }
+
+    document.getElementById("withdrawForm").addEventListener("submit", async function(e) {
+      e.preventDefault();
+      const form = e.target;
+      const data = {
+        wallet: form.wallet.value,
+        amount: form.amount.value
+      };
+
+      const response = await fetch("/api/withdraw", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data)
+      });
+
+      const result = await response.json();
+      document.getElementById("status").innerText = result.message;
+    });
   </script>
 </body>
 </html>
