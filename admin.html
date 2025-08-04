@@ -1,0 +1,19 @@
+<h1>Admin Panel</h1>
+<button onclick="load()">Load Users</button>
+<ul id="users"></ul>
+
+<script>
+function load() {
+  fetch("https://nwataghana.pythonanywhere.com/api/leaderboard")
+    .then(res => res.json())
+    .then(data => {
+      const list = document.getElementById("users");
+      list.innerHTML = "";
+      data.forEach(u => {
+        const li = document.createElement("li");
+        li.innerText = `${u.username}: ${u.balance} 🪙`;
+        list.appendChild(li);
+      });
+    });
+}
+</script>
