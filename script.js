@@ -1,4 +1,4 @@
-const backend = "https://nwataghana.pythonanywhere.com";
+const backend = "https://@nwataghana21.pythonanywhere.com";
 let username = "";
 
 window.Telegram.WebApp.ready();
